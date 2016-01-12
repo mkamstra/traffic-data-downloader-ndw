@@ -15,6 +15,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
+/**
+ * Manager for the logging functionality
+ *
+ * @author companion
+ */
 public class LoggerManager {
 
   private List<Logger> mCreatedLoggers = new ArrayList<>();
@@ -27,6 +32,10 @@ public class LoggerManager {
     // Intentionally private to guarantee singleton pattern
   }
 
+  /**
+   * Singleton pattern
+   * @return the logger manager
+   */
   public static LoggerManager getInstance() {
     if (mInstance == null) {
       mInstance = new LoggerManager();
@@ -50,6 +59,10 @@ public class LoggerManager {
     return result;
   }
 
+  /**
+   * Set the path of the log file
+   * @param pLogPath The path to set
+   */
   public void setLogPath(String pLogPath) {
     mLogPath = pLogPath;
     List<Path> lockFiles = listSourceFiles(Paths.get(mLogPath));
@@ -63,6 +76,11 @@ public class LoggerManager {
     }
   }
 
+  /**
+   * 
+   * @param pClass The class for which the logger has to be returned
+   * @return The logger
+   */
   public Logger getLogger(Class<?> pClass) {
     try {
       String logFileName = mLogPath + File.separator + pClass.getSimpleName() + ".log";
@@ -83,6 +101,9 @@ public class LoggerManager {
     return null;
   }
 
+  /**
+   * Release the logger file handlers so the files are available for writing again
+   */
   public void releaseLoggerFileHandlers() {
     for (Logger logger : mCreatedLoggers) {
       for (Handler handler : logger.getHandlers()) {
