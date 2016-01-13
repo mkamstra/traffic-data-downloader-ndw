@@ -10,21 +10,19 @@ import java.util.logging.Logger;
 
 import no.stcorp.com.companion.download.HttpDownloader;
 import no.stcorp.com.companion.util.CommonProperties;
-import no.stcorp.com.companion.util.LoggerManager;
 
 /**
  * @author Martijn
  *
  */
 public class NDWDownloader implements Runnable {
-  private Logger mLogger = null;
+  private final static Logger mLogger = Logger.getLogger(NDWDownloader.class.getName());
   private String mNdwPath = null;
   private List<String> mNdwURL = new ArrayList<>();
 
   @Override
   public void run() {
     try {
-      mLogger = LoggerManager.getInstance().getLogger(getClass());
       Date startDate = new Date();
       mLogger.info("Running NDW downloader at " + NDWTrafficDataDownloadServlet.getCurrentTimeAsString(startDate));
       Properties prop = CommonProperties.getInstance().getProperties();

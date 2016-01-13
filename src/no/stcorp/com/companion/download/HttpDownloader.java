@@ -17,8 +17,6 @@ import java.util.logging.Logger;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 
-import no.stcorp.com.companion.util.LoggerManager;
-
 /**
  * A utility that downloads a file from a URL.
  * 
@@ -28,13 +26,7 @@ import no.stcorp.com.companion.util.LoggerManager;
 public class HttpDownloader {
   private static final int BUFFER_SIZE = 4096;
 
-  private static Logger mLogger = null;
-
-  private static void initializeLogger() {
-    if (mLogger == null) {
-      mLogger = LoggerManager.getInstance().getLogger(HttpDownloader.class);
-    }
-  }
+  private final static Logger mLogger = Logger.getLogger(HttpDownloader.class.getName());
 
   /**
    * Downloads a file from a URL
@@ -48,7 +40,6 @@ public class HttpDownloader {
    * @return the name of the file that was save
    */
   public static Path downloadFile(String pFileURL, String pSaveDir) throws IOException {
-    initializeLogger();
     Path returnPath = null;
     URL url = new URL(pFileURL);
     HttpURLConnection httpConn = (HttpURLConnection) url.openConnection();

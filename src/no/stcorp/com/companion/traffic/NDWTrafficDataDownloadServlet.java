@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import no.stcorp.com.companion.util.CommonProperties;
-import no.stcorp.com.companion.util.LoggerManager;
 
 /**
  * Servlet implementation class NDWTrafficDataDownloadServlet
@@ -26,7 +25,7 @@ public class NDWTrafficDataDownloadServlet extends HttpServlet {
   private static final long serialVersionUID = 2006357242997698560L;
 
   private Date mStartDate;
-  private Logger mLogger = null;
+  private final static Logger mLogger = Logger.getLogger(NDWTrafficDataDownloadServlet.class.getName());
   private CommonProperties mProperties = null;
   // private ScheduledExecutorService mScheduler;
   private String mVersionNumber = null;
@@ -51,8 +50,6 @@ public class NDWTrafficDataDownloadServlet extends HttpServlet {
       Properties prop = mProperties.getProperties();
       prop.load(config.getServletContext().getResourceAsStream("/WEB-INF/resources/config.properties"));
       String logPath = (String) prop.get("logPath");
-      LoggerManager.getInstance().setLogPath(logPath);
-      mLogger = LoggerManager.getInstance().getLogger(getClass());
       mLogger.info("The properties of the servlet at startup");
       mLogger.info(prop.toString());
       while (config.getInitParameterNames().hasMoreElements()) {
@@ -148,7 +145,6 @@ public class NDWTrafficDataDownloadServlet extends HttpServlet {
   public void destroy() {
     // mScheduler.shutdownNow();
     mLogger.info("Servlet shutting down now");
-    LoggerManager.getInstance().releaseLoggerFileHandlers();
   }
 
 }
