@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import no.stcorp.com.companion.download.HttpDownloader;
 import no.stcorp.com.companion.util.CommonProperties;
@@ -16,7 +16,7 @@ import no.stcorp.com.companion.util.CommonProperties;
  *
  */
 public class NDWDownloader implements Runnable {
-  private final static Logger mLogger = Logger.getLogger(NDWDownloader.class.getName());
+  private final static Logger mLogger = Logger.getLogger(NDWDownloader.class);
   private String mNdwPath = null;
   private List<String> mNdwURL = new ArrayList<>();
 
@@ -44,13 +44,13 @@ public class NDWDownloader implements Runnable {
             // Download and save file
             HttpDownloader.downloadFile(mNdwURL.get(i), mNdwPath);
           } catch (IOException ex) {
-            mLogger.log(Level.SEVERE, "Something went wrong downloading the NDW file from " + mNdwURL
+            mLogger.error("Something went wrong downloading the NDW file from " + mNdwURL
                 + " and saving it to " + mNdwPath, ex);
           }
         }
       }
     } catch (Exception ex) {
-      mLogger.log(Level.SEVERE, "Something went wrong running the NDW downloader", ex);
+      mLogger.error("Something went wrong running the NDW downloader", ex);
     }
   }
 }

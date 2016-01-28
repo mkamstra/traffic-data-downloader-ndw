@@ -11,10 +11,14 @@
   </welcome-file-list>
   
   <context-param>
-      <param-name>ndwDownloadTasks</param-name>
-      <param-value>
-          no.stcorp.com.companion.traffic.NDWDownloader,60
-      </param-value>
+    <param-name>ndwDownloadTasks</param-name>
+    <param-value>
+        no.stcorp.com.companion.traffic.NDWDownloader,60
+    </param-value>
+  </context-param>
+  <context-param>
+      <param-name>log4j-config-location</param-name>
+      <param-value>WEB-INF/log4j.properties</param-value>
   </context-param>
   <listener>
     <listener-class>

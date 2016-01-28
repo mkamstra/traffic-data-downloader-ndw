@@ -2,15 +2,15 @@ package no.stcorp.com.companion.traffic;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 /**
  * @author Martijn
  *
  */
 public class TestBackgroundTask implements Runnable {
-  private final static Logger mLogger = Logger.getLogger(TestBackgroundTask.class.getName());
+  private final static Logger mLogger = Logger.getLogger(TestBackgroundTask.class);
 
   private int counter = 0;
 
@@ -23,7 +23,7 @@ public class TestBackgroundTask implements Runnable {
       counter++;
       mLogger.info(counter + ", running: " + formatter.format(startDate));
     } catch (Exception ex) {
-      mLogger.log(Level.SEVERE, "Something went wrong running the test background task", ex);
+      mLogger.error("Something went wrong running the test background task", ex);
     }
   }
 }

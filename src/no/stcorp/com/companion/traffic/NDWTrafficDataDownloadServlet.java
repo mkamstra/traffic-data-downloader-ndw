@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -14,6 +13,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 
 import no.stcorp.com.companion.util.CommonProperties;
 
@@ -25,7 +26,7 @@ public class NDWTrafficDataDownloadServlet extends HttpServlet {
   private static final long serialVersionUID = 2006357242997698560L;
 
   private Date mStartDate;
-  private final static Logger mLogger = Logger.getLogger(NDWTrafficDataDownloadServlet.class.getName());
+  private static final Logger mLogger = Logger.getLogger(NDWTrafficDataDownloadServlet.class);
   private CommonProperties mProperties = null;
   // private ScheduledExecutorService mScheduler;
   private String mVersionNumber = null;
@@ -49,7 +50,7 @@ public class NDWTrafficDataDownloadServlet extends HttpServlet {
       // This properties file is loaded for all classes at this place
       Properties prop = mProperties.getProperties();
       prop.load(config.getServletContext().getResourceAsStream("/WEB-INF/resources/config.properties"));
-      String logPath = (String) prop.get("logPath");
+      // String logPath = (String) prop.get("logPath");
       mLogger.info("The properties of the servlet at startup");
       mLogger.info(prop.toString());
       while (config.getInitParameterNames().hasMoreElements()) {
@@ -62,9 +63,9 @@ public class NDWTrafficDataDownloadServlet extends HttpServlet {
       // // Every 1 minute
       // mScheduler.scheduleAtFixedRate(new NDWDownloader(), 10, 60, TimeUnit.SECONDS);
     } catch (IOException ex) {
-      mLogger.severe("Something went wrong loading the properties file" + ex);
+      mLogger.error("Something went wrong loading the properties file" + ex);
     } catch (Exception ex) {
-      mLogger.severe("Something else went wrong while reading the properties file" + ex);
+      mLogger.error("Something else went wrong while reading the properties file" + ex);
     }
 
   }
@@ -84,9 +85,10 @@ public class NDWTrafficDataDownloadServlet extends HttpServlet {
    */
   protected void doGet(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
+    mLogger.info("Doing get request");
     response.setContentType("text/html");
     // Set refresh, auto reload time as 20 seconds
-    response.setIntHeader("Refresh", 20);
+    response.setIntHeader("Refresh", 60);
     PrintWriter out = response.getWriter();
     out.println("<html>");
     out.println("<head>");

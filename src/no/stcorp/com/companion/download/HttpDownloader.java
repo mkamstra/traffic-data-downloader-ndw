@@ -12,10 +12,10 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.log4j.Logger;
 
 /**
  * A utility that downloads a file from a URL.
@@ -26,7 +26,7 @@ import org.apache.commons.net.ftp.FTPClient;
 public class HttpDownloader {
   private static final int BUFFER_SIZE = 4096;
 
-  private final static Logger mLogger = Logger.getLogger(HttpDownloader.class.getName());
+  private final static Logger mLogger = Logger.getLogger(HttpDownloader.class);
 
   /**
    * Downloads a file from a URL
@@ -89,7 +89,7 @@ public class HttpDownloader {
         inputStream.close();
         mLogger.info("File downloaded to " + temp.getAbsolutePath());
       } else {
-        mLogger.severe("No file to download. Server replied HTTP code: " + responseCode);
+        mLogger.error("No file to download. Server replied HTTP code: " + responseCode);
       }
       httpConn.disconnect();
 
@@ -111,8 +111,8 @@ public class HttpDownloader {
         client.storeFile(fileOutputName, fis);
         client.logout();
       } catch (IOException ex) {
-        mLogger.severe("Something went wrong on the FTP server: " + ex.getMessage());
-        ex.printStackTrace();
+        mLogger.error("Something went wrong on the FTP server: " + ex.getMessage());
+        mLogger.error(ex);
       } finally {
         mLogger.info("Finished uploading file to FTP server");
         try {
@@ -123,12 +123,12 @@ public class HttpDownloader {
 
           client.disconnect();
         } catch (IOException ex) {
-          mLogger.severe("Something went wrong disconnecting from the FTP server: " + ex.getMessage());
-          ex.printStackTrace();
+          mLogger.error("Something went wrong disconnecting from the FTP server: " + ex.getMessage());
+          mLogger.error(ex);
         }
       }
     } catch (IOException ex) {
-      ex.printStackTrace();
+      mLogger.error(ex);
     }
 
 
